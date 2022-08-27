@@ -36,15 +36,15 @@ app.get("/sendmail", (req, res) => {
 //Main Server Endpoint
 app.post("/sendmail", async (req, res) => {
     if(!req.body.email || !req.body.message){
-        res.status(400).json({msg: "Email or message is not present"});
+        res.status(400).json({success: false, msg: "Email or message is not present"});
     }else if(!validateEmailID(req.body.email)){
-        res.status(400).json({msg: "Please Check your Email again."});
+        res.status(400).json({success: false, msg: "Please Check your Email again."});
     }else{
         const result = await sendTheMail(req.body.email, req.body.message);
         if((result.accepted && result.accepted.length<1) || !result.accepted){
-            res.status(200).json({msg: "Sorry, Something Wrong Happned"});
+            res.status(200).json({success: false, msg: "Sorry, Something Wrong Happned"});
         }else{
-            res.status(200).json({msg: "Thaanks for messaging, I will get back to you very soon."});
+            res.status(200).json({success: true, msg: "Thaanks for messaging, I will get back to you very soon."});
         }
     }
 })
